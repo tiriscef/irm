@@ -6,7 +6,9 @@ Der Consumer spricht ausschließlich mit Service-Interfaces – Datenbankdetails
 
 ## Schnellstart
 
-Voraussetzung: **.NET 10 SDK**.
+Voraussetzung: **.NET 10 SDK** (enthält die Runtime; sonst nichts nötig). Noch nicht installiert?
+Windows: `winget install Microsoft.DotNet.SDK.10` — sonst [dotnet.microsoft.com/download/dotnet/10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
+Prüfen mit `dotnet --list-sdks` (eine `10.x`-Zeile).
 
 ```bash
 dotnet run --project samples/IRM.Demo                # scripted: fester Ablauf typischer Use-Cases
