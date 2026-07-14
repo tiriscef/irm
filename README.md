@@ -6,7 +6,8 @@ Der Consumer spricht ausschließlich mit Service-Interfaces – Datenbankdetails
 
 ## Schnellstart
 
-Voraussetzung: **.NET 10 SDK** (enthält die Runtime; sonst nichts nötig). Noch nicht installiert?
+Voraussetzung: **.NET 10 SDK**. 
+Noch nicht installiert?
 Windows: `winget install Microsoft.DotNet.SDK.10` — sonst [dotnet.microsoft.com/download/dotnet/10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 Prüfen mit `dotnet --list-sdks` (eine `10.x`-Zeile).
 
@@ -54,7 +55,7 @@ IRM.Persistence    DbContext, EF-Config, Service-Impls, Migration, DI       – 
 samples/IRM.Demo   Konsolen-App                                             – dep: Persistence (nur Contract + DI)
 ```
 
-**Grenzen per Compiler erzwungen:** `DbContext` und Service-*Implementierungen* sind `internal`.
+**Grenzen per Compiler/Access Modifier erzwungen:** `DbContext` und Service-*Implementierungen* sind `internal`.
 `public` sind nur die Interfaces, DTOs, Exceptions und die DI-Extension `AddRecipeManagement`.
 
 **Öffentliche Services** (alle async, mit `CancellationToken`):
@@ -69,9 +70,7 @@ einer gemeinsamen `NotFoundException`-Basis).
 **In scope:** Benutzer als Domänen-Entity (Ownership/Attribution), Rezept-/Kategorie-/Zutaten-Verwaltung,
 Abfragen (nach Benutzer/Kategorie/Zutat), Favoriten, Autorisierung auf Domänen-Ebene.
 
-**Bewusst out of scope:** Authentifizierung (der Consumer liefert die Identität), Sperren/Aktivierung von Konten (ein Auth-Zustand, gehört zum selben Belang), Rollen/Admin. *Das Wie* der Identitätsprüfung ist ein Infrastruktur-/Querschnittsbelang, der vom Host abhängt — die Bibliothek braucht nur das Ergebnis (wer handelt) und bleibt so zustandslos und einbettbar.
-
-> Die Aufgabe verlangt Bearbeiten/Löschen nur für Rezepte und Kategorien explizit, für Benutzer nicht. Da „Benutzerverwaltung" den Lifecycle üblicherweise umfasst und ein ausgelagerter Auth-Service diese Operationen benötigt, bietet `IUserService` bewusst auch `GetAsync`/`RenameAsync`/`DeleteAsync` an — in einem echten Projekt wäre diese Anforderungslücke eine Rückfrage wert.
+**Bewusst out of scope:** Authentifizierung (der Consumer liefert die Identität), Sperren/Aktivierung von Konten (ein Auth-Zustand, gehört zum selben Belang), Rollen/Admin. Das *Wie* der Identitätsprüfung ist ein Infrastruktur-/Querschnittsbelang, der vom Host abhängt — die Bibliothek braucht nur das Ergebnis (wer handelt) und bleibt so zustandslos und einbettbar.
 
 ## Design-Entscheidungen (Kurzform)
 
@@ -82,8 +81,8 @@ Abfragen (nach Benutzer/Kategorie/Zutat), Favoriten, Autorisierung auf Domänen-
 | `bigint identity` + strongly-typed IDs | verständlicher Default; verhindert *primitive obsession* (IDs nicht vertauschbar) |
 | Read-DTOs statt Entities an der API | entkoppelt den Contract, kein Leaken von EF-/Domain-Details |
 | Exceptions statt `Result<T>` | idiomatisch für eine Consumer-Bibliothek; klare Hierarchie |
-| Delete „block if in-use" (Kategorien, Zutaten, Benutzer) | vorhersehbar, keine Seiteneffekte auf fremde Rezepte; beim Benutzer = „besitzt Rezepte" (eigene Favoriten werden mit aufgeräumt); Mechanismus für beliebige Consumer-Policy (Platzhalter, DSGVO-Cascade) |
-| Struktur nach Dependency Rule, Grenze per `internal` | siehe Architektur |
+| „block if in-use"-default für Delete-Operationen (Kategorien, Zutaten, Benutzer) | vorhersehbar, keine Seiteneffekte; Mechanismus für beliebige Consumer-Policy (z.B. Platzhalter, Delete-Cascade) |
+| Struktur nach Dependency Rule, Grenze per `internal` access modifier | siehe Architektur |
 | Invarianten im Domain-Model | *make illegal states unrepresentable* (≥1 Schritt/Zutat/Kategorie, keine Duplikate, Step-Order positional) |
 | Uniqueness case-insensitiv (`NOCASE`) | Service-Vorabprüfung (freundliche Meldung) + Unique-Index als Absicherung |
 
