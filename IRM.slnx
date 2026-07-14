@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IRM.Domain/IRM.Domain.csproj" />
+    <Project Path="src/IRM.Application/IRM.Application.csproj" />
+    <Project Path="src/IRM.Persistence/IRM.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/IRM.Demo/IRM.Demo.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IRM.Domain.Tests/IRM.Domain.Tests.csproj" />
+    <Project Path="tests/IRM.Persistence.Tests/IRM.Persistence.Tests.csproj" />
+  </Folder>
+</Solution>

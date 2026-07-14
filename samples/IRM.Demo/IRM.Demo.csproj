@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Nur die Persistenz (für die DI-Extension). Der Contract (IRM.Application) kommt transitiv;
+         DbContext und Service-Implementierungen sind internal und hier bewusst nicht erreichbar. -->
+    <ProjectReference Include="..\..\src\IRM.Persistence\IRM.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

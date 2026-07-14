@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
+    <!-- Hebt die native SQLite-Binary transitiv auf die gepatchte Version (behebt NU1903/GHSA-2m69-gcr7-jv3q). -->
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IRM.Application\IRM.Application.csproj" />
+    <ProjectReference Include="..\IRM.Domain\IRM.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="IRM.Domain" />
+    <Using Include="IRM.Application" />
+    <InternalsVisibleTo Include="IRM.Persistence.Tests" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IRM.Domain\IRM.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="IRM.Domain" />
+  </ItemGroup>
+
+</Project>
