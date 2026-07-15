@@ -16,7 +16,9 @@ public class WiringTests : IDisposable
     public async Task AddRecipeManagement_wires_services_and_migrates()
     {
         var services = new ServiceCollection();
-        services.AddRecipeManagement(o => o.UseSqlite($"Data Source={_dbPath}"));
+        // Pooling deaktiviert, damit SQLite die Verbindung nach dem Test nicht weiter offen hält
+        // und damit (unter Windows) das Löschen im Disposing blockiert
+        services.AddRecipeManagement(o => o.UseSqlite($"Data Source={_dbPath};Pooling=False"));
         await using var provider = services.BuildServiceProvider();
 
         await provider.InitializeRecipesDatabaseAsync();
